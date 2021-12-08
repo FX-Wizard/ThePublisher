@@ -1,0 +1,43 @@
+QMainWindow {
+    color: rgb(211, 211, 211);
+    background-color: rgb(33, 34, 38);
+}
+
+QMenuBar {
+    color: rgb(211, 211, 211);
+}
+
+QMenu {
+    color: rgb(211, 211, 211);
+}
+
+QDialog {
+    background-color: rgb(33, 34, 38);
+}
+
+QTabWidget {
+    color: rgb(211, 211, 211);
+    background-color: rgb(43, 44, 48);
+}
+
+QLineEdit {
+    color: rgb(211, 211, 211);
+    background-color: rgb(33, 34, 38);
+}
+
+QPushButton {
+    color: rgb(221, 221, 221);
+    background-color: rgb(54, 57, 64);
+}
+
+QComboBox {
+    background-color: rgb(150, 150, 150);
+}
+
+QProgressBar {
+    border-color: rgb(60, 26, 255);
+}
+
+QLabel {
+    color: rgb(211, 211, 211);
+}

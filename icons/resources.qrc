@@ -1,0 +1,10 @@
+<RCC>
+  <qresource prefix="backgroundImages">
+    <file>skull01_white.png</file>
+    <file>red.jpg</file>
+    <file>white.jpg</file>
+  </qresource>
+  <qresource prefix="buttonImages">
+    <file>skullBullets_white.png</file>
+  </qresource>
+</RCC>
