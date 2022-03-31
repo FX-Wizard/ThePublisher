@@ -29,8 +29,8 @@ def populateProjects():
         return ''
 
     for project in os.listdir(jobsDir):
-    	if project.startswith(tuple(prefix)):
-    	    projects.append(project)
+        if project.startswith(tuple(prefix)):
+            projects.append(project)
     projects.sort()
     return projects
 

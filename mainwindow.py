@@ -3,7 +3,7 @@ from PySide2 import QtWidgets, QtCore, QtGui
 from PySide2.QtUiTools import QUiLoader
 
 import prefs
-import populateProjects
+import populatedata
 import buttonFunc
 
 from settingsWindow import SettingsWindow
@@ -62,13 +62,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Action menu
         self.studioSettingsBtn = self.window.findChild(QtWidgets.QAction, 'actionStudio_Settings')
-        print(self.studioSettingsBtn)
         self.studioSettingsBtn.triggered.connect(self.showSettingsMenu)
 
 
     def populateProjects(self):
         '''Populate projects comboBox with folders in projects dir'''
-        projects = populateProjects.populateProjects()
+        projects = populatedata.populateProjects()
         if not projects:
             self.showSettingsMenu()
         self.projectCB.addItems(projects)
@@ -94,22 +93,22 @@ class MainWindow(QtWidgets.QMainWindow):
         '''Populate renders comboBox'''
         if self.renderSelectCB.count():
             self.renderSelectCB.clear()
-        renders = populateProjects.populateRenderDir(project)
+        renders = populatedata.populateRenderDir(project)
         self.renderSelectCB.addItems(renders)
 
 
     def onRenderSelected(self):
         '''Select and store selected render path'''
-        renderPath = populateProjects.getImagePath()
+        renderPath = populatedata.getImagePath()
         selectedRender = self.renderSelectCB.currentText()
-        populateProjects.renderExist(renderPath, selectedRender)
+        populatedata.renderExist(renderPath, selectedRender)
 
 
     def populateSequenceList(self, project):
         '''select and store job sequence'''
         if self.sequenceSelectCB.count():
             self.sequenceSelectCB.clear()
-        sequence = populateProjects.populateSequence(project)
+        sequence = populatedata.populateSequence(project)
         self.sequenceSelectCB.addItems(sequence)
         self.onSequenceSelected()
 
@@ -119,7 +118,7 @@ class MainWindow(QtWidgets.QMainWindow):
         if self.shotsCB.count():
             self.shotsCB.clear()
         selectedSequence = self.sequenceSelectCB.currentText()
-        shots = populateProjects.populateShots(selectedSequence)
+        shots = populatedata.populateShots(selectedSequence)
         self.shotsCB.addItems(shots)
 
 
@@ -131,7 +130,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def onShotSelected(self): # find and store render path
         '''Select and store selected render path'''
-        seqPath = populateProjects.getSeqPath()
+        seqPath = populatedata.getSeqPath()
         seq = self.sequenceSelectCB.currentText()
         shotSeq = self.shotsCB.currentText()
         outputPath = os.path.join(seqPath, seq, shotSeq, 'light')
@@ -146,9 +145,9 @@ class MainWindow(QtWidgets.QMainWindow):
         Returns:
             none
         '''  
-        renderPath = populateProjects.getImagePath()
+        renderPath = populatedata.getImagePath()
         selectedRender = self.renderSelectCB.currentText()
-        renderOutput = populateProjects.renderExist(renderPath, selectedRender)
+        renderOutput = populatedata.renderExist(renderPath, selectedRender)
         buttonFunc.viewRender(renderOutput)
 
 
@@ -162,9 +161,9 @@ class MainWindow(QtWidgets.QMainWindow):
         Returns:
             none
         ''' 
-        renderPath = populateProjects.getImagePath()
+        renderPath = populatedata.getImagePath()
         selectedRender = self.renderSelectCB.currentText()
-        renderOutput = populateProjects.renderExist(renderPath, selectedRender)
+        renderOutput = populatedata.renderExist(renderPath, selectedRender)
         buttonFunc.exploreRenderDir(renderOutput)
 
 
@@ -178,10 +177,10 @@ class MainWindow(QtWidgets.QMainWindow):
         Returns:
             none
         ''' 
-        seqPath = populateProjects.getSeqPath()
+        seqPath = populatedata.getSeqPath()
         seq = self.sequenceSelectCB.currentText()
         shotSeq = self.shotsCB.currentText()
-        outputPath = populateProjects.outputExists(seqPath, seq, shotSeq)
+        outputPath = populatedata.outputExists(seqPath, seq, shotSeq)
         buttonFunc.exploreRenderDir(outputPath)
 
 
@@ -200,15 +199,15 @@ class MainWindow(QtWidgets.QMainWindow):
             none
         ''' 
         #get render path
-        renderPath = populateProjects.getImagePath()
+        renderPath = populatedata.getImagePath()
         selectedRender = self.renderSelectCB.currentText()
         renderOutput = os.path.join(renderPath, selectedRender)
         sourceDir = renderOutput        
         #get output path
-        seqPath = populateProjects.getSeqPath()
+        seqPath = populatedata.getSeqPath()
         seq = self.sequenceSelectCB.currentText()
         shotSeq = self.shotsCB.currentText()
-        outputPath = populateProjects.outputExists(seqPath, seq, shotSeq)
+        outputPath = populatedata.outputExists(seqPath, seq, shotSeq)
         destDir = outputPath
         buttonFunc.moveRenderDir(sourceDir,destDir) 
 
@@ -231,13 +230,13 @@ class MainWindow(QtWidgets.QMainWindow):
         Returns:
             none
         ''' 
-        renderPath = populateProjects.getImagePath()
+        renderPath = populatedata.getImagePath()
         selectedRender = self.renderSelectCB.currentText()
-        seqPath = populateProjects.getSeqPath()
+        seqPath = populatedata.getSeqPath()
         seq = self.sequenceSelectCB.currentText()
         shotSeq = self.shotsCB.currentText()
 
-        renderDir = populateProjects.draftRenderDir(renderPath, selectedRender, seqPath, seq, shotSeq)
+        renderDir = populatedata.draftRenderDir(renderPath, selectedRender, seqPath, seq, shotSeq)
 
         fileName = [f for f in os.listdir(renderDir) if os.path.isfile(os.path.join(renderDir, f))][0]
         startFrame = (fileName[-8:-4])
@@ -256,7 +255,7 @@ class MainWindow(QtWidgets.QMainWindow):
         renderName = fileName.replace('.' + startFrame + fileExt, "")
         renderExt = '.%04d' + fileExt
 
-        outputDir = populateProjects.outputExists(seqPath, seq, shotSeq)
+        outputDir = populatedata.outputExists(seqPath, seq, shotSeq)
         outputExt = '.mp4'
         
         source = os.path.join(renderDir,  renderName + renderExt)

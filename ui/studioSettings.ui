@@ -35,7 +35,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="layout_project" stretch="0,1">
+    <layout class="QVBoxLayout" name="layout_project" stretch="0,1,0,0">
      <item>
       <widget class="QLabel" name="label_project_folder_linux">
        <property name="font">
@@ -127,6 +127,20 @@
          </item>
         </layout>
        </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_projec_prefix">
+       <property name="text">
+        <string>Prefix</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_project_prefix">
+       <property name="placeholderText">
+        <string/>
+       </property>
       </widget>
      </item>
     </layout>

@@ -26,12 +26,17 @@ class SettingsWindow(QtWidgets.QMainWindow):
 
         self.lineProjectLinux = self.window.findChild(QtWidgets.QLineEdit, 'lineEdit_project_linux')
         self.btnOpenProjectLinux = self.window.findChild(QtWidgets.QPushButton, 'btn_open_project_linux')
+        self.btnOpenProjectLinux.clicked.connect(lambda: self.fileDialog('linux'))
+
+        self.lineProjectPrefix = self.window.findChild(QtWidgets.QLineEdit, 'lineEdit_project_prefix')
 
         self.lineProjectMac = self.window.findChild(QtWidgets.QLineEdit, 'lineEdit_project_mac')
         self.btnOpenProjectMac = self.window.findChild(QtWidgets.QPushButton, 'btn_open_project_mac')
+        self.btnOpenProjectMac.clicked.connect(lambda: self.fileDialog('mac'))
 
         self.lineProjectWin = self.window.findChild(QtWidgets.QLineEdit, 'lineEdit_project_win')
         self.btnOpenProjectWin = self.window.findChild(QtWidgets.QPushButton, 'btn_open_project_win')
+        self.btnOpenProjectWin.clicked.connect(lambda: self.fileDialog('win'))
 
         self.lineRender = self.window.findChild(QtWidgets.QLineEdit, 'lineEdit_render')
         self.lineSequence = self.window.findChild(QtWidgets.QLineEdit, 'lineEdit_sequence')
@@ -47,6 +52,7 @@ class SettingsWindow(QtWidgets.QMainWindow):
         self.lineProjectLinux.setText(data.projectDir.get('linux'))
         self.lineProjectMac.setText(data.projectDir.get('mac'))
         self.lineProjectWin.setText(data.projectDir.get('win'))
+        self.lineProjectPrefix.setText(data.projectDir.get('prefix'))
         self.lineRender.setText(data.projectMap.get('render_dir'))
         self.lineSequence.setText(data.projectMap.get('sequence_dir'))
         self.lineShot.setText(data.projectMap.get('shot_dir'))
@@ -56,12 +62,26 @@ class SettingsWindow(QtWidgets.QMainWindow):
         data.projectDir['linux'] = self.lineProjectLinux.text()
         data.projectDir['mac'] = self.lineProjectMac.text()
         data.projectDir['win'] = self.lineProjectWin.text()
-
+        data.projectDir['prefix'] = self.lineProjectPrefix.text()
         data.projectMap['render_dir'] = self.lineRender.text()
         data.projectMap['sequence_dir'] = self.lineSequence.text()
         data.projectMap['shot_dir'] = self.lineShot.text()
 
         ini.save()
+
+
+    def fileDialog(self, tab):
+        dialog = QtWidgets.QFileDialog()
+        dialog.setFileMode(QtWidgets.QFileDialog.DirectoryOnly)
+
+        if dialog.exec_() == QtWidgets.QDialog.Accepted:
+            path = str(dialog.selectedFiles()[0])
+            if tab == 'linux':
+                self.lineProjectLinux.setText(path)
+            elif tab == 'mac':
+                self.lineProjectMac.setText(path)
+            else:
+                self.lineProjectWin.setText(path)
 
 
 if __name__ == '__main__':
