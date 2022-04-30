@@ -182,7 +182,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Sequence Folder</string>
+        <string>Publish Folder</string>
        </property>
       </widget>
      </item>
